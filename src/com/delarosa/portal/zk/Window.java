@@ -36,9 +36,6 @@ public class Window extends org.zkoss.zul.Window {
         panelLayout.setHflex("true");
         panelLayout.setVflex("true");
         
-        setHflex("true");
-        setVflex("true");
-        
         appendChild(borderlayout);
         
         setWidth("100%");
