@@ -1,6 +1,7 @@
 package org.zkoss.essentials.entity;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 
 /**
  *
@@ -17,30 +18,94 @@ public class User implements Serializable, Cloneable {
         return null;
     }
 
-    private String account;
-    private String fullName;
+    private int id;
+    private String alias;
+    private String name;
+    private String email;
+    private Timestamp created;
+    private Timestamp updated;
+    private int createdBy;
+    private int updatedBy;
     private String password;
+    private boolean active;
+
+    public User() {
+        
+    }
 
     public User(String account, String password, String fullName, String email) {
-        this.account = account;
-        this.fullName = fullName;
+        this();
+        this.alias = account;
+        this.name = fullName;
         this.password = password;
     }
 
-    public String getAccount() {
-        return account;
+    public int getId() {
+        return id;
     }
 
-    public void setAccount(String account) {
-        this.account = account;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public String getFullName() {
-        return fullName;
+    public String getEmail() {
+        return email;
     }
 
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public Timestamp getCreated() {
+        return created;
+    }
+
+    public void setCreated(Timestamp created) {
+        this.created = created;
+    }
+
+    public Timestamp getUpdated() {
+        return updated;
+    }
+
+    public void setUpdated(Timestamp updated) {
+        this.updated = updated;
+    }
+
+    public int getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(int createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public int getUpdatedBy() {
+        return updatedBy;
+    }
+
+    public void setUpdatedBy(int updatedBy) {
+        this.updatedBy = updatedBy;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getAlias() {
+        return alias;
     }
 
     public String getPassword() {
@@ -55,7 +120,7 @@ public class User implements Serializable, Cloneable {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((account == null) ? 0 : account.hashCode());
+        result = prime * result + ((alias == null) ? 0 : alias.hashCode());
         return result;
     }
 
@@ -71,11 +136,11 @@ public class User implements Serializable, Cloneable {
             return false;
         }
         User other = (User) obj;
-        if (account == null) {
-            if (other.account != null) {
+        if (alias == null) {
+            if (other.alias != null) {
                 return false;
             }
-        } else if (!account.equals(other.account)) {
+        } else if (!alias.equals(other.alias)) {
             return false;
         }
         return true;

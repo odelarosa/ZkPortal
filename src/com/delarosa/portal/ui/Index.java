@@ -43,7 +43,7 @@ public class Index extends Window {
         ok.addEventListener(Events.ON_CLICK, (Event t) -> {
             login();
         });
-        
+
         addEventListener(Events.ON_OK, (Event t) -> {
             login();
         });
@@ -63,7 +63,7 @@ public class Index extends Window {
 
     public void onCreate() {
         getPage().setTitle("Acceso al Sistema");
-        
+
         user.focus();
     }
 
@@ -76,7 +76,7 @@ public class Index extends Window {
             Notification.showWarning("Usuario y/o contraseña invália");
             return;
         }
-        
+
         Executions.getCurrent().sendRedirect("/main.zul");
     }
 

@@ -1,7 +1,12 @@
 package com.delarosa.portal.authentication;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.delarosa.portal.db.DB;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.apache.commons.dbutils.QueryRunner;
+import org.apache.commons.dbutils.ResultSetHandler;
+import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.zkoss.essentials.entity.User;
 import org.zkoss.essentials.services.UserInfoService;
 
@@ -11,44 +16,22 @@ import org.zkoss.essentials.services.UserInfoService;
  */
 public class MyUserInfoService implements UserInfoService {
 
-    static protected final List<User> userList = new ArrayList<>();
-
-    static {
-        userList.add(new User("anonymous", "1234", "Anonymous", "anonumous@your.com"));
-        userList.add(new User("admin", "1234", "Admin", "admin@your.com"));
-        userList.add(new User("zkoss", "1234", "ZKOSS", "info@zkoss.org"));
+    @Override
+    public User findUser(String account) {
+        User user = null;
+        try {
+            QueryRunner run = new QueryRunner(DB.getDataSource());
+            ResultSetHandler<User> h = new BeanHandler<>(User.class);
+            user = run.query("SELECT * FROM usr where alias = ? ", h, account);
+        } catch (SQLException ex) {
+            Logger.getLogger(MyUserInfoService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return user;
     }
 
-    /**
-     * synchronized is just because we use static userList in this demo to
-     * prevent concurrent access *
-     */
     @Override
-    public synchronized User findUser(String account) {
-        int s = userList.size();
-        for (int i = 0; i < s; i++) {
-            User u = userList.get(i);
-            if (account.equals(u.getAccount())) {
-                return User.clone(u);
-            }
-        }
+    public User updateUser(User user) {
+        //TODO
         return null;
-    }
-
-    /**
-     * synchronized is just because we use static userList in this demo to
-     * prevent concurrent access
-     */
-    @Override
-    public synchronized User updateUser(User user) {
-        int s = userList.size();
-        for (int i = 0; i < s; i++) {
-            User u = userList.get(i);
-            if (user.getAccount().equals(u.getAccount())) {
-                userList.set(i, u = User.clone(user));
-                return u;
-            }
-        }
-        throw new RuntimeException("user not found " + user.getAccount());
     }
 }

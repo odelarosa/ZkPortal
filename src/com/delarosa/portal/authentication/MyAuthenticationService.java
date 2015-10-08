@@ -25,7 +25,7 @@ public class MyAuthenticationService implements AuthenticationService, Serializa
         }
 
         Session sess = Sessions.getCurrent();
-        UserCredential cre = new UserCredential(user.getAccount(), user.getFullName());
+        UserCredential cre = new UserCredential(user.getAlias(), user.getName());
         //just in case for this demo.
         if (cre.isAnonymous()) {
             return false;
