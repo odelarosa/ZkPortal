@@ -2,6 +2,7 @@ package com.delarosa.portal.ui;
 
 import com.delarosa.portal.authentication.MyAuthenticationService;
 import org.zkoss.essentials.services.AuthenticationService;
+import org.zkoss.essentials.services.UserCredential;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.Events;
@@ -21,8 +22,9 @@ public class UserPanel extends Div {
     private final AuthenticationService authService = new MyAuthenticationService();
 
     public UserPanel() {
+        UserCredential credential = authService.getUserCredential();
         Menubar menubar = new Menubar();
-        Menu userMenu = new Menu("Omar de la Rosa");
+        Menu userMenu = new Menu(credential.getName());
         userMenu.setIconSclass("z-icon-user");
 
         Menupopup menupopup = new Menupopup();
