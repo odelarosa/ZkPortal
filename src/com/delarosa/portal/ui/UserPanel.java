@@ -1,24 +1,24 @@
 package com.delarosa.portal.ui;
 
+import com.delarosa.portal.authentication.MyAuthenticationService;
+import org.zkoss.essentials.services.AuthenticationService;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.Events;
-import org.zkoss.zul.Button;
-import org.zkoss.zul.Cell;
 import org.zkoss.zul.Div;
 import org.zkoss.zul.Menu;
 import org.zkoss.zul.Menubar;
 import org.zkoss.zul.Menuitem;
 import org.zkoss.zul.Menupopup;
 import org.zkoss.zul.Menuseparator;
-import org.zkoss.zul.Toolbar;
-import org.zkoss.zul.Toolbarbutton;
 
 /**
  *
  * @author odelarosa
  */
 public class UserPanel extends Div {
+    
+    private final AuthenticationService authService = new MyAuthenticationService();
 
     public UserPanel() {
         Menubar menubar = new Menubar();
@@ -61,6 +61,7 @@ public class UserPanel extends Div {
     }
 
     private void logout() {
+        authService.logout();
         Executions.getCurrent().sendRedirect("index.zul");
     }
 

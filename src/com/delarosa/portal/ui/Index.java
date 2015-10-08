@@ -1,21 +1,19 @@
 package com.delarosa.portal.ui;
 
+import com.delarosa.portal.authentication.MyAuthenticationService;
 import com.delarosa.portal.utils.ZkUtils;
+import com.delarosa.portal.zk.Notification;
+import org.zkoss.essentials.services.AuthenticationService;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.Events;
-import org.zkoss.zul.A;
+import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zul.Button;
-import org.zkoss.zul.Div;
-import org.zkoss.zul.Hbox;
-import org.zkoss.zul.Image;
 import org.zkoss.zul.Label;
-import org.zkoss.zul.Span;
 import org.zkoss.zul.Textbox;
 import org.zkoss.zul.Toolbarbutton;
 import org.zkoss.zul.Vbox;
 import org.zkoss.zul.Window;
-import org.zkoss.zul.impl.LabelImageElement;
 
 /**
  *
@@ -27,6 +25,7 @@ public class Index extends Window {
     private final Textbox pass = new Textbox();
     private final Button ok = new Button("LOGIN");
     private final Toolbarbutton recover = new Toolbarbutton("Olvidaste tu contraseña?");
+    private final AuthenticationService authService = new MyAuthenticationService();
 
     public Index() {
         Vbox vbox = new Vbox();
@@ -37,11 +36,15 @@ public class Index extends Window {
         user.setPlaceholder("Usuario");
         pass.setPlaceholder("Contraseña");
         pass.setType("password");
-        
+
         ok.setWidth("100%");
         ok.setIconSclass("z-icon-sign-in");
 
         ok.addEventListener(Events.ON_CLICK, (Event t) -> {
+            login();
+        });
+        
+        addEventListener(Events.ON_OK, (Event t) -> {
             login();
         });
 
@@ -60,13 +63,21 @@ public class Index extends Window {
 
     public void onCreate() {
         getPage().setTitle("Acceso al Sistema");
+        
+        user.focus();
     }
 
     private void login() {
+        Clients.clearWrongValue(Index.this);
         ZkUtils.notNull(user);
         ZkUtils.notNull(pass);
 
-        Executions.getCurrent().sendRedirect("main.zul");
+        if (!authService.login(user.getText(), pass.getText())) {
+            Notification.showWarning("Usuario y/o contraseña invália");
+            return;
+        }
+        
+        Executions.getCurrent().sendRedirect("/main.zul");
     }
 
 }
