@@ -30,7 +30,7 @@ public class JettyZk {
             webcontext.setDefaultsDescriptor("src/com/delarosa/portal/webdefault.xml");
 
             ResourceHandler handler = new ResourceHandler();
-            handler.setResourceBase("src/com/delarosa/portal/web/css/");
+            handler.setResourceBase("src/com/delarosa/portal/web/staticfiles/");
 
             handlers.addHandler(handler);
             handlers.addHandler(webcontext);
