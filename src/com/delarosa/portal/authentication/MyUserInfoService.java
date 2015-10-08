@@ -1,13 +1,13 @@
 package com.delarosa.portal.authentication;
 
 import com.delarosa.portal.db.DB;
+import com.delarosa.portal.db.entity.User;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.ResultSetHandler;
 import org.apache.commons.dbutils.handlers.BeanHandler;
-import org.zkoss.essentials.entity.User;
 import org.zkoss.essentials.services.UserInfoService;
 
 /**
@@ -30,7 +30,7 @@ public class MyUserInfoService implements UserInfoService {
     }
 
     @Override
-    public User updateUser(User user) {
+    public User updateUser(org.zkoss.essentials.entity.User user) {
         //TODO
         return null;
     }
