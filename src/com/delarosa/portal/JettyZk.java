@@ -2,6 +2,11 @@ package com.delarosa.portal;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.application.Platform;
+import javafx.embed.swing.JFXPanel;
+import javafx.scene.Scene;
+import javafx.scene.web.WebView;
+import javax.swing.JFrame;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.DefaultHandler;
 import org.eclipse.jetty.server.handler.HandlerCollection;
@@ -41,9 +46,22 @@ public class JettyZk {
 
             // Starting the Server
             server.start();
+
+            showBrowser();
+
             server.join();
         } catch (Exception ex) {
             Logger.getLogger(JettyZk.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    private static void showBrowser() {
+        JFXPanel jfxPanel = new JFXPanel(); // Scrollable JCompenent
+        Platform.runLater(() -> { // FX components need to be managed by JavaFX
+            WebView webView = new WebView();
+            webView.getEngine().load("http://localhost:8080/");
+            jfxPanel.setScene(new Scene(webView));
+            new Browser(jfxPanel).setVisible(true);
+        });
     }
 }
